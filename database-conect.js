@@ -1,6 +1,5 @@
 
 const Sequelize = require('sequelize')
-
 var database = " "// nome do banco de dados
 var user = "root"
 var password = "cuzinho1"

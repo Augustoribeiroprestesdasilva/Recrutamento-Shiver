@@ -1,34 +1,32 @@
 //variaveis de ambiente
 const express = require("express")
 const app = express()
-const handlebar = require("express-handlebars")
+const handlebars = require("express-handlebars")
+const path = require("path")
+var port = 8080
 
 
 //config
-// Tamplete engine
-app.engine('handlebars', handlebars({defaultLayout: 'main'}))
-app.set('view engine', 'handlebars')
+    // Tamplete engine
+    app.engine('handlebars', handlebars({defaultLayout: 'main'}))
+    app.set('view engine', 'handlebars')
+
+// CARREGANDO ROTAS
+    // PAGINA INICIAL
+    const home = require('./routes/home')
+    // PAGIUNA DE RECRUTAMENTO
+    const recrutamento = require('./routes/recrutamento')
 
 
-//porta que a API esta ouvindo
-var port = 8080
+// Grupo de Rotas
+    //PAGINA INICAL
+    app.use('/', home)
+    // PAGIUNA DE RECRUTAMENTO
+    app.use('/recrutamento', recrutamento)
 
-// ROTAS
-    // PAGINA INICIAL DO SITE
-    app.get("/", function (req, res) {
-        res.sendFile(__dirname + "/html/index.html")
-    })
+// Arquivos estaticos
+app.use(express.static(path.join(__dirname,"public")))
 
-    // CAMINHO PARA O RECRUTAMENTO
-    app.get("/recrutamento", function (req, res) { 
-        res.sendFile(__dirname + "/html/formulario.html")
-    })
-
-    // CAMINHO PARA AUXILIO DOS NOVATOS 
-    app.get("/builds", function (req, res) { 
-        res.sendFile(__dirname + "/html/formulario.html")
-    })
-
-app.listen(port, function() {
-    console.log("Servidor esta on-line!")
+app.listen(port, () =>{
+    console.log("Servidando rodando na porta: " + port)
 })
